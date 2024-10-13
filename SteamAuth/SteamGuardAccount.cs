@@ -62,11 +62,13 @@ namespace SteamAuth
         /// <returns></returns>
         public async Task<bool> DeactivateAuthenticator(int scheme = 1)
         {
-            var postBody = new NameValueCollection();
-            postBody.Add("revocation_code", this.RevocationCode);
-            postBody.Add("revocation_reason", "1");
-            postBody.Add("steamguard_scheme", scheme.ToString());
-            string response = await SteamWeb.POSTRequest("https://api.steampowered.com/ITwoFactorService/RemoveAuthenticator/v1?access_token=" + this.Session.AccessToken, null, postBody);
+            var postBody = new NameValueCollection
+            {
+                { "revocation_code", RevocationCode },
+                { "revocation_reason", "1" },
+                { "steamguard_scheme", scheme.ToString() }
+            };
+            string response = await SteamWeb.POSTRequest("https://api.steampowered.com/ITwoFactorService/RemoveAuthenticator/v1?access_token=" + Session.AccessToken, null, postBody);
 
             // Parse to object
             var removeResponse = JsonConvert.DeserializeObject<RemoveAuthenticatorResponse>(response);
@@ -87,12 +89,12 @@ namespace SteamAuth
 
         public string GenerateSteamGuardCodeForTime(long time)
         {
-            if (this.SharedSecret == null || this.SharedSecret.Length == 0)
+            if (SharedSecret == null || SharedSecret.Length == 0)
             {
                 return "";
             }
 
-            string sharedSecretUnescaped = Regex.Unescape(this.SharedSecret);
+            string sharedSecretUnescaped = Regex.Unescape(SharedSecret);
             byte[] sharedSecretArray = Convert.FromBase64String(sharedSecretUnescaped);
             byte[] timeArray = new byte[8];
 
@@ -128,15 +130,15 @@ namespace SteamAuth
 
         public Confirmation[] FetchConfirmations()
         {
-            string url = this.GenerateConfirmationURL();
-            string response = SteamWeb.GETRequest(url, this.Session.GetCookies()).Result;
+            string url = GenerateConfirmationURL();
+            string response = SteamWeb.GETRequest(url, Session.GetCookies()).Result;
             return FetchConfirmationInternal(response);
         }
 
         public async Task<Confirmation[]> FetchConfirmationsAsync()
         {
-            string url = this.GenerateConfirmationURL();
-            string response = await SteamWeb.GETRequest(url, this.Session.GetCookies());
+            string url = GenerateConfirmationURL();
+            string response = await SteamWeb.GETRequest(url, Session.GetCookies());
             return FetchConfirmationInternal(response);
         }
 
@@ -200,7 +202,7 @@ namespace SteamAuth
             queryString += "&cid=" + conf.ID + "&ck=" + conf.Key;
             url += queryString;
 
-            string response = await SteamWeb.GETRequest(url, this.Session.GetCookies());
+            string response = await SteamWeb.GETRequest(url, Session.GetCookies());
             if (response == null) return false;
 
             SendConfirmationResponse confResponse = JsonConvert.DeserializeObject<SendConfirmationResponse>(response);
@@ -222,7 +224,7 @@ namespace SteamAuth
             using (CookieAwareWebClient wc = new CookieAwareWebClient())
             {
                 wc.Encoding = Encoding.UTF8;
-                wc.CookieContainer = this.Session.GetCookies();
+                wc.CookieContainer = Session.GetCookies();
                 wc.Headers[HttpRequestHeader.UserAgent] = SteamWeb.MOBILE_APP_USER_AGENT;
                 wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded; charset=UTF-8";
                 response = await wc.UploadStringTaskAsync(new Uri(url), "POST", query);
@@ -257,20 +259,22 @@ namespace SteamAuth
 
             long time = TimeAligner.GetSteamTime();
 
-            var ret = new NameValueCollection();
-            ret.Add("p", this.DeviceID);
-            ret.Add("a", this.Session.SteamID.ToString());
-            ret.Add("k", _generateConfirmationHashForTime(time, tag));
-            ret.Add("t", time.ToString());
-            ret.Add("m", "react");
-            ret.Add("tag", tag);
+            var ret = new NameValueCollection
+            {
+                { "p", DeviceID },
+                { "a", Session.SteamID.ToString() },
+                { "k", _generateConfirmationHashForTime(time, tag) },
+                { "t", time.ToString() },
+                { "m", "react" },
+                { "tag", tag }
+            };
 
             return ret;
         }
 
         private string _generateConfirmationHashForTime(long time, string tag)
         {
-            byte[] decode = Convert.FromBase64String(this.IdentitySecret);
+            byte[] decode = Convert.FromBase64String(IdentitySecret);
             int n2 = 8;
             if (tag != null)
             {

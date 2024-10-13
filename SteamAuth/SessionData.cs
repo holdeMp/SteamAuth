@@ -20,18 +20,20 @@ namespace SteamAuth
 
         public async Task RefreshAccessToken()
         {
-            if (string.IsNullOrEmpty(this.RefreshToken))
+            if (string.IsNullOrEmpty(RefreshToken))
                 throw new Exception("Refresh token is empty");
 
-            if (IsTokenExpired(this.RefreshToken))
+            if (IsTokenExpired(RefreshToken))
                 throw new Exception("Refresh token is expired");
 
             string responseStr;
             try
             {
-                var postData = new NameValueCollection();
-                postData.Add("refresh_token", this.RefreshToken);
-                postData.Add("steamid", this.SteamID.ToString());
+                var postData = new NameValueCollection
+                {
+                    { "refresh_token", RefreshToken },
+                    { "steamid", SteamID.ToString() }
+                };
                 responseStr = await SteamWeb.POSTRequest("https://api.steampowered.com/IAuthenticationService/GenerateAccessTokenForApp/v1/", null, postData);
             }
             catch (Exception ex)
@@ -40,23 +42,23 @@ namespace SteamAuth
             }
 
             var response = JsonConvert.DeserializeObject<GenerateAccessTokenForAppResponse>(responseStr);
-            this.AccessToken = response.Response.AccessToken;
+            AccessToken = response.Response.AccessToken;
         }
 
         public bool IsAccessTokenExpired()
         {
-            if (string.IsNullOrEmpty(this.AccessToken))
+            if (string.IsNullOrEmpty(AccessToken))
                 return true;
 
-            return IsTokenExpired(this.AccessToken);
+            return IsTokenExpired(AccessToken);
         }
 
         public bool IsRefreshTokenExpired()
         {
-            if (string.IsNullOrEmpty(this.RefreshToken))
+            if (string.IsNullOrEmpty(RefreshToken))
                 return true;
 
-            return IsTokenExpired(this.RefreshToken);
+            return IsTokenExpired(RefreshToken);
         }
 
         private bool IsTokenExpired(string token)
@@ -79,12 +81,12 @@ namespace SteamAuth
 
         public CookieContainer GetCookies()
         {
-            if (this.SessionID == null)
-                this.SessionID = GenerateSessionID();
+            if (SessionID == null)
+                SessionID = GenerateSessionID();
 
             var cookies = new CookieContainer();
-            cookies.Add(new Cookie("steamLoginSecure", this.GetSteamLoginSecure(), "/", "steamcommunity.com"));
-            cookies.Add(new Cookie("sessionid", this.SessionID, "/", "steamcommunity.com"));
+            cookies.Add(new Cookie("steamLoginSecure", GetSteamLoginSecure(), "/", "steamcommunity.com"));
+            cookies.Add(new Cookie("sessionid", SessionID, "/", "steamcommunity.com"));
             cookies.Add(new Cookie("mobileClient", "android", "/", "steamcommunity.com"));
             cookies.Add(new Cookie("mobileClientVersion", "777777 3.6.1", "/", "steamcommunity.com"));
             return cookies;
@@ -92,7 +94,7 @@ namespace SteamAuth
 
         private string GetSteamLoginSecure()
         {
-            return this.SteamID.ToString() + "%7C%7C" + this.AccessToken;
+            return SteamID.ToString() + "%7C%7C" + AccessToken;
         }
 
         private static string GenerateSessionID()
