@@ -1,64 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+using SteamWebAuthenticator;
 
 namespace SteamAuth
 {
-    public class Confirmation
+    public partial class Confirmation
     {
-        [JsonProperty(PropertyName = "id")]
-        public ulong ID { get; set; }
+        [JsonPropertyName("id")]
+        public ulong Id { get; set; }
 
-        [JsonProperty(PropertyName = "nonce")]
+        [JsonPropertyName("nonce")]
         public ulong Key { get; set; }
 
-        [JsonProperty(PropertyName = "creator_id")]
+        [JsonPropertyName("creator_id")]
         public ulong Creator { get; set; }
 
-        [JsonProperty(PropertyName = "headline")]
+        [JsonPropertyName("headline")]
         public string Headline { get; set; }
 
-        [JsonProperty(PropertyName = "summary")]
-        public List<String> Summary { get; set; }
+        [JsonPropertyName("summary")]
+        public List<string> Summary { get; set; }
 
-        [JsonProperty(PropertyName = "accept")]
+        [JsonPropertyName(Constants.Accept)]
         public string Accept { get; set; }
 
-        [JsonProperty(PropertyName = "cancel")]
+        [JsonPropertyName(Constants.Cancel)]
         public string Cancel { get; set; }
 
-        [JsonProperty(PropertyName = "icon")]
+        [JsonPropertyName("icon")]
         public string Icon { get; set; }
 
-        [JsonProperty(PropertyName = "type")]
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonPropertyName("type")]
+        [JsonConverter(typeof(JsonStringEnumConverter ))]
         public EMobileConfirmationType ConfType { get; set; } = EMobileConfirmationType.Invalid;
-
-        public enum EMobileConfirmationType
-        {
-            Invalid = 0,
-            Test = 1,
-            Trade = 2,
-            MarketListing = 3,
-            FeatureOptOut = 4,
-            PhoneNumberChange = 5,
-            AccountRecovery = 6
-        }
-    }
-
-    public class ConfirmationsResponse
-    {
-        [JsonProperty("success")]
-        public bool Success { get; set; }
-
-        [JsonProperty("message")]
-        public string Message { get; set; }
-
-        [JsonProperty("needauth")]
-        public bool NeedAuthentication { get; set; }
-
-        [JsonProperty("conf")]
-        public Confirmation[] Confirmations { get; set; }
     }
 }

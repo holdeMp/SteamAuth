@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Net;
-using Newtonsoft.Json;
+﻿using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json.Serialization;
+using SteamAuth.Helpers;
 
 namespace SteamAuth
 {
@@ -12,9 +12,9 @@ namespace SteamAuth
     /// </summary>
     public class TimeAligner
     {
-        private static bool _aligned = false;
-        private static int _timeDifference = 0;
-
+        private static bool _aligned;
+        private static int _timeDifference;
+        private static HttpClient _httpClient;
         public static long GetSteamTime()
         {
             if (!_aligned)
@@ -24,61 +24,32 @@ namespace SteamAuth
             return Util.GetSystemUnixTime() + _timeDifference;
         }
 
-        public static async Task<long> GetSteamTimeAsync()
+        private static async void AlignTime()
         {
-            if (!_aligned)
-            {
-                await AlignTimeAsync();
-            }
-            return Util.GetSystemUnixTime() + _timeDifference;
-        }
-
-        public static void AlignTime()
-        {
-            long currentTime = Util.GetSystemUnixTime();
-            using (WebClient client = new WebClient())
-            {
-                client.Encoding = Encoding.UTF8;
-                try
-                {
-                    string response = client.UploadString(APIEndpoints.TWO_FACTOR_TIME_QUERY, "steamid=0");
-                    TimeQuery query = JsonConvert.DeserializeObject<TimeQuery>(response);
-                    _timeDifference = (int)(query.Response.ServerTime - currentTime);
-                    _aligned = true;
-                }
-                catch (WebException)
-                {
-                    return;
-                }
-            }
-        }
-
-        public static async Task AlignTimeAsync()
-        {
-            long currentTime = Util.GetSystemUnixTime();
-            WebClient client = new WebClient();
+            var currentTime = Util.GetSystemUnixTime();
+            using var client = new HttpClient();
             try
             {
-                client.Encoding = Encoding.UTF8;
-                string response = await client.UploadStringTaskAsync(new Uri(APIEndpoints.TWO_FACTOR_TIME_QUERY), "steamid=0");
-                TimeQuery query = JsonConvert.DeserializeObject<TimeQuery>(response);
+                var jsonString = await "steamid=0".ToJsonAsync();
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(APIEndpoints.TWO_FACTOR_TIME_QUERY, content);
+                var query = await response.Content.ToString().FromJsonAsync<TimeQuery>();
                 _timeDifference = (int)(query.Response.ServerTime - currentTime);
                 _aligned = true;
             }
             catch (WebException)
             {
-                return;
             }
         }
 
-        internal class TimeQuery
+        internal abstract class TimeQuery
         {
-            [JsonProperty("response")]
+            [JsonPropertyName("response")]
             internal TimeQueryResponse Response { get; set; }
 
-            internal class TimeQueryResponse
+            internal abstract class TimeQueryResponse
             {
-                [JsonProperty("server_time")]
+                [JsonPropertyName("server_time")]
                 public long ServerTime { get; set; }
             }
 

@@ -5,8 +5,8 @@ namespace SteamAuth
 {
     public class CookieAwareWebClient : WebClient
     {
-        public CookieContainer CookieContainer { get; set; } = new CookieContainer();
-        public CookieCollection ResponseCookies { get; set; } = new CookieCollection();
+        public CookieContainer CookieContainer { get; set; } = new();
+        public CookieCollection ResponseCookies { get; set; } = new();
 
         protected override WebRequest GetWebRequest(Uri address)
         {
