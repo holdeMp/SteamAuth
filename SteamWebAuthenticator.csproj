@@ -9,7 +9,7 @@
         <Description>A C# library that provides vital Steam Mobile Authenticator functionality. </Description>
         <PackageProjectUrl>https://github.com/holdeMp/SteamAuth</PackageProjectUrl>
         <RepositoryUrl>https://github.com/holdeMp/SteamAuth</RepositoryUrl>
-        <Version>1.0.1</Version>
+        <Version>1.0.2</Version>
     </PropertyGroup>
 
     <ItemGroup>

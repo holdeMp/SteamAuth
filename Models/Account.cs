@@ -1,14 +1,21 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Core;
 using Serilog;
 using SteamWebAuthenticator.Helpers;
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable SuggestVarOrType_BuiltInTypes
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
 
 namespace SteamWebAuthenticator.Models;
 
@@ -16,11 +23,11 @@ public class Account : SerializableFile
 {
     private const byte MinimumAccessTokenValidityMinutes = 5;
 
-    private static byte[] _steamGuardCodeTranslations =
+    private static readonly byte[] SteamGuardCodeTranslations =
         [50, 51, 52, 53, 54, 55, 56, 57, 66, 67, 68, 70, 71, 72, 74, 75, 77, 78, 80, 81, 82, 84, 86, 87, 88, 89];
 
     private string? _backingSessionId;
-    private string? _backingDeviceId;
+    private readonly string? _backingDeviceId;
     private Cookie? _backingTradeBackSessionCookie;
     private string _backingXcsrfToken = string.Empty;
     private string _backingSteamAccessToken = string.Empty;
@@ -173,8 +180,8 @@ public class Account : SerializableFile
 
         for (int i = 0; i < 5; ++i)
         {
-            codeArray[i] = _steamGuardCodeTranslations[codePoint % _steamGuardCodeTranslations.Length];
-            codePoint /= _steamGuardCodeTranslations.Length;
+            codeArray[i] = SteamGuardCodeTranslations[codePoint % SteamGuardCodeTranslations.Length];
+            codePoint /= SteamGuardCodeTranslations.Length;
         }
         
         return Encoding.UTF8.GetString(codeArray);

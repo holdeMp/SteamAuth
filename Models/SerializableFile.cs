@@ -1,4 +1,8 @@
 ﻿#nullable enable
+using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Serilog;
 using SteamWebAuthenticator.Helpers;
 // ReSharper disable UnusedMemberInSuper.Global
