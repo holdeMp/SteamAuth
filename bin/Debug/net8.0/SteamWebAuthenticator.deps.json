@@ -11,7 +11,7 @@
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
           "Microsoft.IdentityModel.JsonWebTokens": "6.35.0",
           "Serilog": "2.12.0",
-          "SteamKit2": "3.0.0-Beta.1"
+          "SteamKit2": "3.0.0"
         },
         "runtime": {
           "SteamWebAuthenticator.dll": {}
@@ -91,25 +91,25 @@
           "System.Security.Principal.Windows": "5.0.0"
         }
       },
-      "protobuf-net/3.2.30": {
+      "protobuf-net/3.2.45": {
         "dependencies": {
-          "protobuf-net.Core": "3.2.30"
+          "protobuf-net.Core": "3.2.45"
         },
         "runtime": {
           "lib/net6.0/protobuf-net.dll": {
             "assemblyVersion": "3.0.0.0",
-            "fileVersion": "3.2.30.709"
+            "fileVersion": "3.2.45.36865"
           }
         }
       },
-      "protobuf-net.Core/3.2.30": {
+      "protobuf-net.Core/3.2.45": {
         "dependencies": {
           "System.Collections.Immutable": "7.0.0"
         },
         "runtime": {
           "lib/net6.0/protobuf-net.Core.dll": {
             "assemblyVersion": "3.0.0.0",
-            "fileVersion": "3.2.30.709"
+            "fileVersion": "3.2.45.36865"
           }
         }
       },
@@ -121,11 +121,11 @@
           }
         }
       },
-      "SteamKit2/3.0.0-Beta.1": {
+      "SteamKit2/3.0.0": {
         "dependencies": {
           "Microsoft.Win32.Registry": "5.0.0",
           "System.IO.Hashing": "8.0.0",
-          "protobuf-net": "3.2.30"
+          "protobuf-net": "3.2.45"
         },
         "runtime": {
           "lib/net8.0/SteamKit2.dll": {
@@ -244,19 +244,19 @@
       "path": "microsoft.win32.registry/5.0.0",
       "hashPath": "microsoft.win32.registry.5.0.0.nupkg.sha512"
     },
-    "protobuf-net/3.2.30": {
+    "protobuf-net/3.2.45": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-C/UTlmxEJHAHpqm8xQK1UyJKaIynVCSNG4mVrbLgnZ7ccH28nN49O8iMJvKEodTgVbnimvy+3mIiAdW6mATwnw==",
-      "path": "protobuf-net/3.2.30",
-      "hashPath": "protobuf-net.3.2.30.nupkg.sha512"
+      "sha512": "sha512-5UZ/ukUHcGbFSl7vNMrHsfjqdxusdd9w7w0fCEXzf3UUtsrGNVCzV5SmF+sCHAbnRV2qPcD1ixiDP7Aj8lX/HA==",
+      "path": "protobuf-net/3.2.45",
+      "hashPath": "protobuf-net.3.2.45.nupkg.sha512"
     },
-    "protobuf-net.Core/3.2.30": {
+    "protobuf-net.Core/3.2.45": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-v2ZxxYrz+X212ukSx+uqkLuPu414bvmSAnTyf+PBUKR9ENJxO4P/csorA/27456MCp1JNoMssDj/f91RDiwBfQ==",
-      "path": "protobuf-net.core/3.2.30",
-      "hashPath": "protobuf-net.core.3.2.30.nupkg.sha512"
+      "sha512": "sha512-PMWatW2NrT1uTXD7etJ4VdQ0wWZLFrIfdRGppD2QX7nzZ0+kIzqhq551u6ZiXJHWJgG4hWFEkSnUnt2aB6posg==",
+      "path": "protobuf-net.core/3.2.45",
+      "hashPath": "protobuf-net.core.3.2.45.nupkg.sha512"
     },
     "Serilog/2.12.0": {
       "type": "package",
@@ -265,12 +265,12 @@
       "path": "serilog/2.12.0",
       "hashPath": "serilog.2.12.0.nupkg.sha512"
     },
-    "SteamKit2/3.0.0-Beta.1": {
+    "SteamKit2/3.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-JfNdnIU5gfSkutIT9u7BprxMGqTNSnf91uovPWCUzcKE3+eHITdlIh6aN28745ddPnUWLz41ljJJK9uGPHYymw==",
-      "path": "steamkit2/3.0.0-beta.1",
-      "hashPath": "steamkit2.3.0.0-beta.1.nupkg.sha512"
+      "sha512": "sha512-1d45S7gJPqKKlD6FEirZGjU72xFKnVYVNwM2/E5PQ1LxNcymfWUFlaqRH7hfDRBatFvaxbI6Cqc4x8eFYqgn/w==",
+      "path": "steamkit2/3.0.0",
+      "hashPath": "steamkit2.3.0.0.nupkg.sha512"
     },
     "System.Collections.Immutable/7.0.0": {
       "type": "package",
