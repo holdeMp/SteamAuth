@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\molot\\Desktop\\SteamDesktopAuthenticator\\SteamWebAuthenticator\\SteamWebAuthenticator.csproj": {}
+    "C:\\Users\\molot\\Documents\\SteamWebAuthenticator\\SteamWebAuthenticator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\molot\\Desktop\\SteamDesktopAuthenticator\\SteamWebAuthenticator\\SteamWebAuthenticator.csproj": {
+    "C:\\Users\\molot\\Documents\\SteamWebAuthenticator\\SteamWebAuthenticator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\molot\\Desktop\\SteamDesktopAuthenticator\\SteamWebAuthenticator\\SteamWebAuthenticator.csproj",
+        "projectUniqueName": "C:\\Users\\molot\\Documents\\SteamWebAuthenticator\\SteamWebAuthenticator.csproj",
         "projectName": "SteamWebAuthenticator",
-        "projectPath": "C:\\Users\\molot\\Desktop\\SteamDesktopAuthenticator\\SteamWebAuthenticator\\SteamWebAuthenticator.csproj",
+        "projectPath": "C:\\Users\\molot\\Documents\\SteamWebAuthenticator\\SteamWebAuthenticator.csproj",
         "packagesPath": "C:\\Users\\molot\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\molot\\Desktop\\SteamDesktopAuthenticator\\SteamWebAuthenticator\\obj\\",
+        "outputPath": "C:\\Users\\molot\\Documents\\SteamWebAuthenticator\\obj\\",
         "projectStyle": "PackageReference",
         "UsingMicrosoftNETSdk": false,
         "configFilePaths": [
@@ -55,7 +55,7 @@
             },
             "SteamKit2": {
               "target": "Package",
-              "version": "[3.0.0-Beta.1, )"
+              "version": "[3.0.0, )"
             }
           },
           "imports": [
